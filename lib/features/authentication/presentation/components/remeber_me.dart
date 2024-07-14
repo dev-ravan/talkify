@@ -1,10 +1,10 @@
 import 'package:talkify/utils/exports.dart';
 
-class RemeberMe extends StatelessWidget {
+class RememberMe extends StatelessWidget {
   final bool isCheck;
   final VoidCallback forgotClick;
   final Function(bool?) onCheckChange;
-  const RemeberMe(
+  const RememberMe(
       {super.key,
       required this.isCheck,
       required this.forgotClick,

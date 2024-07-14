@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talkify/app/app.dart';
+import 'package:talkify/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:talkify/init_dependencies.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  await initDependencies();
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+  ], child: const MainApp()));
 }

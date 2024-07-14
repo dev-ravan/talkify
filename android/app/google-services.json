@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "239687923563",
+    "project_id": "talkify-b6070",
+    "storage_bucket": "talkify-b6070.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239687923563:android:fa2528a06e27c58e5bbe2e",
+        "android_client_info": {
+          "package_name": "com.example.talkify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5jEWfWGhd4KUQMNlGCiwvtAVVXsqQY0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239687923563:android:e28fe03c6ea5af2c5bbe2e",
+        "android_client_info": {
+          "package_name": "com.talkify.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5jEWfWGhd4KUQMNlGCiwvtAVVXsqQY0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
