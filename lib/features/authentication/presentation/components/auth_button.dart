@@ -1,9 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:talkify/utils/exports.dart';
 
 class AuthButton extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  const AuthButton({super.key, required this.title, required this.onTap});
+  final bool isLoading;
+  const AuthButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+    required this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,38 +23,45 @@ class AuthButton extends StatelessWidget {
         height: MediaQuery.sizeOf(context).height * 0.08,
         decoration: BoxDecoration(
             color: colorTheme.primary, borderRadius: BorderRadius.circular(8)),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      title,
-                      style: textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Palettes.whiteTxtColor),
-                    ),
-                  ),
+        child: isLoading
+            ? SizedBox(
+                width: double.maxFinite,
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: Palettes.whiteTxtColor,
                 ),
-              ],
-            ),
-            Positioned(
-                right: 0, // Position the container on the right side
-                top: 0, // Align the container to the top
-                bottom: 0, // Align the container to the bottom
-                child: Container(
-                    margin: const EdgeInsets.all(6),
-                    width: MediaQuery.sizeOf(context).height / 13,
-                    decoration: BoxDecoration(
-                        color: Palettes.bgColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(6)),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      color: Palettes.whiteTxtColor,
-                    ))),
-          ],
-        ),
+              )
+            : Stack(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            title,
+                            style: textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Palettes.whiteTxtColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                      right: 0, // Position the container on the right side
+                      top: 0, // Align the container to the top
+                      bottom: 0, // Align the container to the bottom
+                      child: Container(
+                          margin: const EdgeInsets.all(6),
+                          width: MediaQuery.sizeOf(context).height / 13,
+                          decoration: BoxDecoration(
+                              color: Palettes.bgColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(6)),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Palettes.whiteTxtColor,
+                          ))),
+                ],
+              ),
       ),
     );
   }

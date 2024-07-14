@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talkify/constants/app_icons.dart';
-import 'package:talkify/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:talkify/features/authentication/presentation/components/auth_button.dart';
 import 'package:talkify/features/authentication/presentation/components/icon_button.dart';
 import 'package:talkify/features/authentication/presentation/components/remeber_me.dart';
@@ -9,19 +8,32 @@ import 'package:talkify/utils/helper/common_field.dart';
 import 'package:talkify/utils/sizes.dart';
 import 'package:talkify/utils/toasts.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  //
+  final formKey = GlobalKey<FormState>(); //
+  final emailController = TextEditingController();
+  final pwController = TextEditingController();
+  //
+  bool isChecked = false;
+  @override
+  void dispose() {
+    emailController.dispose();
+    pwController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
-    //
-    final formKey = GlobalKey<FormState>(); //
-    final emailController = TextEditingController();
-    final pwController = TextEditingController();
-    //
-    bool isChecked = false;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<AuthBloc, AuthState>(
@@ -87,6 +99,7 @@ class LoginPage extends StatelessWidget {
                   gap24,
                   // Buttons
                   AuthButton(
+                    isLoading: state is LoginLetsGoLoadingState,
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         context.read<AuthBloc>().add(

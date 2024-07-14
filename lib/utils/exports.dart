@@ -8,7 +8,7 @@ export 'package:firebase_core/firebase_core.dart';
 export 'package:get_it/get_it.dart';
 export 'package:talkify/features/authentication/data/datasources/auth_remote_data_source.dart';
 export 'package:talkify/features/authentication/data/repositories/auth_repo_impl.dart';
-export 'package:talkify/features/authentication/domain/usecases/user_login.dart';
+export 'package:talkify/features/authentication/domain/usecase/user_login.dart';
 export 'package:talkify/firebase_options.dart';
 export 'package:talkify/features/authentication/domain/repositories/auth_repo.dart';
 export 'package:talkify/features/authentication/presentation/bloc/auth_bloc.dart';
