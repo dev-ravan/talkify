@@ -10,4 +10,12 @@ class AppStrings {
   static String letsGo = "Let's go!";
   static String google = "Continue with Google";
   static String facebook = "Continue with Facebook";
+
+  // Sign up
+  static String register = "Register";
+  static String alreadyHaveAccount = "Already have an account? ";
+  static String login = "Login";
+  static String nameField = "Name";
+  static String newPw = "Password";
+  static String confirmPw = "Confirm Password";
 }

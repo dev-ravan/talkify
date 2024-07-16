@@ -16,6 +16,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   fpdart: ^1.1.0
   get_it: ^7.7.0
+  image_picker: ^1.1.2
   toastification: ^2.0.0
 
 dev_dependencies:

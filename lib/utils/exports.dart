@@ -12,3 +12,12 @@ export 'package:talkify/features/authentication/domain/usecase/user_login.dart';
 export 'package:talkify/firebase_options.dart';
 export 'package:talkify/features/authentication/domain/repositories/auth_repo.dart';
 export 'package:talkify/features/authentication/presentation/bloc/auth_bloc.dart';
+export 'package:talkify/constants/app_icons.dart';
+export 'package:talkify/features/authentication/presentation/components/auth_button.dart';
+export 'package:talkify/features/authentication/presentation/components/icon_button.dart';
+export 'package:talkify/features/authentication/presentation/components/remeber_me.dart';
+export 'package:talkify/utils/helper/common_field.dart';
+export 'package:talkify/utils/sizes.dart';
+
+export 'package:flutter/foundation.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';

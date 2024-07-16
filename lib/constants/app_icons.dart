@@ -7,4 +7,6 @@ class AppIcons {
   static String send = "assets/icons/send.svg";
   static String home = "assets/icons/home.svg";
   static String arrowRight = "assets/icons/arrow-right.svg";
+  static String user = "assets/icons/user.svg";
+  static String camera = "assets/icons/camera.svg";
 }

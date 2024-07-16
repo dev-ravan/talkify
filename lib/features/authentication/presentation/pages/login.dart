@@ -3,6 +3,8 @@ import 'package:talkify/constants/app_icons.dart';
 import 'package:talkify/features/authentication/presentation/components/auth_button.dart';
 import 'package:talkify/features/authentication/presentation/components/icon_button.dart';
 import 'package:talkify/features/authentication/presentation/components/remeber_me.dart';
+import 'package:talkify/features/authentication/presentation/pages/sign_up.dart';
+import 'package:talkify/features/home/presentation/pages/home.dart';
 import 'package:talkify/utils/exports.dart';
 import 'package:talkify/utils/helper/common_field.dart';
 import 'package:talkify/utils/sizes.dart';
@@ -16,12 +18,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //
-  final formKey = GlobalKey<FormState>(); //
+  final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final pwController = TextEditingController();
-  //
+
   bool isChecked = false;
+
   @override
   void dispose() {
     emailController.dispose();
@@ -38,16 +40,21 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       body: BlocConsumer<AuthBloc, AuthState>(
         listenWhen: (previous, current) => current is AuthActionState,
-        buildWhen: (previous, current) => current is! AuthActionState,
+        buildWhen: (previous, current) => true,
         listener: (context, state) {
           if (state is LoginLetsGoSuccessState) {
             successToastMsg(msg: "Logged in successfully! ", context: context);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const Home()));
           } else if (state is LoginLetsGoFailureState) {
             warningToastMsg(msg: state.error, context: context);
+          } else if (state is LoginToRegisterState) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SignUpPage()));
           }
         },
         builder: (context, state) {
-          print(state.runtimeType == LoginLetsGoLoadingState);
+          final isLoading = state is LoginLetsGoLoadingState;
           return SafeArea(
               child: Padding(
             padding: p16,
@@ -63,18 +70,22 @@ class _LoginPageState extends State<LoginPage> {
                     style: textTheme.headlineMedium,
                   ),
                   gap8,
-                  RichText(
-                    text: TextSpan(
-                        text: AppStrings.dontHaveTxt,
-                        style: textTheme.labelLarge,
-                        children: [
-                          TextSpan(
-                              text: AppStrings.createIt,
-                              style: textTheme.labelLarge!.copyWith(
-                                color: colorTheme.primary,
-                                fontWeight: FontWeight.w600,
-                              ))
-                        ]),
+                  InkWell(
+                    onTap: () =>
+                        context.read<AuthBloc>().add(LoginCreateItClickEvent()),
+                    child: RichText(
+                      text: TextSpan(
+                          text: AppStrings.dontHaveTxt,
+                          style: textTheme.labelLarge,
+                          children: [
+                            TextSpan(
+                                text: AppStrings.createIt,
+                                style: textTheme.labelLarge!.copyWith(
+                                  color: colorTheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                ))
+                          ]),
+                    ),
                   ),
                   gap32,
                   // Form Fields
@@ -100,9 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                   gap24,
                   // Buttons
                   AuthButton(
-                    isLoading: state.runtimeType == LoginLetsGoLoadingState,
+                    isLoading: isLoading,
                     onTap: () {
-                      print(state.runtimeType == LoginLetsGoLoadingState);
                       if (formKey.currentState!.validate()) {
                         context.read<AuthBloc>().add(
                               LoginLetsGoButtonClickEvent(
