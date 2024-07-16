@@ -9,14 +9,13 @@ class AuthButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.onTap,
-    required this.isLoading,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorTheme = Theme.of(context).colorScheme;
-
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -26,8 +25,10 @@ class AuthButton extends StatelessWidget {
         child: isLoading
             ? SizedBox(
                 width: double.maxFinite,
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: Palettes.whiteTxtColor,
+                child: Center(
+                  child: CircularProgressIndicator.adaptive(
+                    backgroundColor: Palettes.whiteTxtColor,
+                  ),
                 ),
               )
             : Stack(

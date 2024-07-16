@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         builder: (context, state) {
+          print(state.runtimeType == LoginLetsGoLoadingState);
           return SafeArea(
               child: Padding(
             padding: p16,
@@ -99,8 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                   gap24,
                   // Buttons
                   AuthButton(
-                    isLoading: state is LoginLetsGoLoadingState,
+                    isLoading: state.runtimeType == LoginLetsGoLoadingState,
                     onTap: () {
+                      print(state.runtimeType == LoginLetsGoLoadingState);
                       if (formKey.currentState!.validate()) {
                         context.read<AuthBloc>().add(
                               LoginLetsGoButtonClickEvent(
