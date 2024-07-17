@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:talkify/features/authentication/presentation/components/pick_user_img.dart';
 import 'package:talkify/features/home/presentation/pages/home.dart';
 import 'package:talkify/utils/exports.dart';
@@ -41,8 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Navigator.pop(context);
         } else if (state is AuthRegisterSuccessState) {
           successToastMsg(msg: "User added successfully", context: context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const Home()));
+          Navigator.pop(context);
         } else if (state is AuthRegisterFailureState) {
           warningToastMsg(msg: state.error, context: context);
         }
@@ -119,17 +120,25 @@ class _SignUpPageState extends State<SignUpPage> {
                       isLoading: state is AuthRegisterLoadingState,
                       onTap: () {
                         if (formKey.currentState!.validate()) {
+                          final userPhoto = state is RegisterPickImgSuccessState
+                              ? state.image
+                              : null;
                           if (pwController.text != confirmPwController.text) {
                             warningToastMsg(
                                 msg: "Both password should be same..!",
                                 context: context);
                           } else {
-                            context.read<AuthBloc>().add(
-                                RegisterButtonClickEvent(
-                                    name: nameController.text.trim(),
-                                    email: emailController.text.trim(),
-                                    password: pwController.text.trim(),
-                                    photo: ""));
+                            if (userPhoto != null) {
+                              context.read<AuthBloc>().add(
+                                  RegisterButtonClickEvent(
+                                      name: nameController.text.trim(),
+                                      email: emailController.text.trim(),
+                                      password: pwController.text.trim(),
+                                      photo: userPhoto));
+                            } else {
+                              warningToastMsg(
+                                  msg: "No image selected", context: context);
+                            }
                           }
                         }
                       },

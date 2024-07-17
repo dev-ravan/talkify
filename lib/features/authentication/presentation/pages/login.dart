@@ -94,13 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                       icon: AppIcons.lock,
                       isPassword: true,
                       controller: pwController),
-                  gap8,
-                  // Remember me
-                  RememberMe(
-                    isCheck: isChecked,
-                    forgotClick: () {},
-                    onCheckChange: (isCheck) {},
-                  ),
+
                   gap24,
                   // Buttons
                   AuthButton(

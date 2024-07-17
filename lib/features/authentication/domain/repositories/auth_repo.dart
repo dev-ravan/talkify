@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:fpdart/fpdart.dart';
 import 'package:talkify/core/error/failure.dart';
 
@@ -10,6 +11,6 @@ abstract interface class AuthRepository {
     required String name,
     required String email,
     required String password,
-    required String photo,
+    required File photo,
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:talkify/core/error/failure.dart';
 import 'package:talkify/core/usecase/usecase.dart';
@@ -20,7 +22,7 @@ final class UserRegisterParams {
   final String name;
   final String email;
   final String password;
-  final String photo;
+  final File photo;
 
   UserRegisterParams(
       {required this.name,

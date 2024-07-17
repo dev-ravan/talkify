@@ -23,7 +23,7 @@ final class RegisterButtonClickEvent extends AuthEvent {
   final String name;
   final String email;
   final String password;
-  final String photo;
+  final File photo;
 
   RegisterButtonClickEvent(
       {required this.name,

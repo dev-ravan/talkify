@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:talkify/core/error/exception.dart';
 import 'package:talkify/core/error/failure.dart';
@@ -25,7 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
       {required String name,
       required String email,
       required String password,
-      required String photo}) async {
+      required File photo}) async {
     try {
       final userId = await authRemoteDataSource.registerUser(
           name: name, email: email, password: password, photo: photo);
