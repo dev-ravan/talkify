@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'talkify-b6070.appspot.com',
     iosBundleId: 'com.example.talkify',
   );
+
 }

@@ -1,5 +1,7 @@
 import 'package:talkify/features/authentication/presentation/components/pick_user_img.dart';
+import 'package:talkify/features/home/presentation/pages/home.dart';
 import 'package:talkify/utils/exports.dart';
+import 'package:talkify/utils/toasts.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -33,10 +35,16 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
       listenWhen: (previous, current) => current is AuthActionState,
-      buildWhen: (previous, current) => current is! AuthActionState,
+      buildWhen: (previous, current) => true,
       listener: (context, state) {
         if (state is RegisterToLoginClickState) {
           Navigator.pop(context);
+        } else if (state is AuthRegisterSuccessState) {
+          successToastMsg(msg: "User added successfully", context: context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const Home()));
+        } else if (state is AuthRegisterFailureState) {
+          warningToastMsg(msg: state.error, context: context);
         }
       },
       builder: (context, state) {
@@ -108,8 +116,22 @@ class _SignUpPageState extends State<SignUpPage> {
                     gap24,
                     // Buttons
                     AuthButton(
+                      isLoading: state is AuthRegisterLoadingState,
                       onTap: () {
-                        if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          if (pwController.text != confirmPwController.text) {
+                            warningToastMsg(
+                                msg: "Both password should be same..!",
+                                context: context);
+                          } else {
+                            context.read<AuthBloc>().add(
+                                RegisterButtonClickEvent(
+                                    name: nameController.text.trim(),
+                                    email: emailController.text.trim(),
+                                    password: pwController.text.trim(),
+                                    photo: ""));
+                          }
+                        }
                       },
                       title: AppStrings.register,
                     ),

@@ -19,6 +19,19 @@ final class LoginForgotPasswordClickEvent extends AuthEvent {}
 
 final class LoginRememberMeCheckClickEvent extends AuthEvent {}
 
+final class RegisterButtonClickEvent extends AuthEvent {
+  final String name;
+  final String email;
+  final String password;
+  final String photo;
+
+  RegisterButtonClickEvent(
+      {required this.name,
+      required this.email,
+      required this.password,
+      required this.photo});
+}
+
 final class RegisterPickImgEvent extends AuthEvent {}
 
 final class RegisterToLoginClickEvent extends AuthEvent {}

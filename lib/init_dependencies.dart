@@ -1,3 +1,4 @@
+import 'package:talkify/features/authentication/domain/usecase/user_register.dart';
 import 'package:talkify/utils/exports.dart';
 
 final serviceLocator = GetIt.instance;
@@ -22,8 +23,13 @@ void _initAuth() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => UserRegister(
+      serviceLocator(),
+    ),
+  );
 
   serviceLocator.registerLazySingleton(
-    () => AuthBloc(userLogin: serviceLocator()),
+    () => AuthBloc(userLogin: serviceLocator(), userRegister: serviceLocator()),
   );
 }

@@ -34,3 +34,15 @@ final class RegisterPickImgFailureState extends AuthActionState {
 }
 
 final class RegisterToLoginClickState extends AuthActionState {}
+
+final class AuthRegisterSuccessState extends AuthActionState {
+  final String msg;
+  AuthRegisterSuccessState(this.msg);
+}
+
+final class AuthRegisterFailureState extends AuthActionState {
+  final String error;
+  AuthRegisterFailureState(this.error);
+}
+
+final class AuthRegisterLoadingState extends AuthState {}

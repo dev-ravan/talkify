@@ -1,21 +1,25 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:talkify/features/authentication/domain/usecase/user_register.dart';
 import 'package:talkify/utils/exports.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserLogin _userLogin;
+  final UserRegister _userRegister;
   final ImagePicker _picker = ImagePicker();
 
-  AuthBloc({required UserLogin userLogin})
+  AuthBloc({required UserLogin userLogin, required UserRegister userRegister})
       : _userLogin = userLogin,
+        _userRegister = userRegister,
         super(AuthInitial()) {
     on<LoginLetsGoButtonClickEvent>(_loginLetsGoButtonClickEvent);
     on<LoginCreateItClickEvent>(_loginCreateItClickEvent);
     on<RegisterPickImgEvent>(_registerPickImgEvent);
     on<RegisterToLoginClickEvent>(_registerToLoginClickEvent);
+    on<RegisterButtonClickEvent>(_registerButtonClickEvent);
   }
 
   FutureOr<void> _loginLetsGoButtonClickEvent(
@@ -56,5 +60,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _registerToLoginClickEvent(
       RegisterToLoginClickEvent event, Emitter<AuthState> emit) {
     emit(RegisterToLoginClickState());
+  }
+
+  FutureOr<void> _registerButtonClickEvent(
+      RegisterButtonClickEvent event, Emitter<AuthState> emit) async {
+    emit(AuthRegisterLoadingState());
+    try {
+      final res = await _userRegister.call(
+        UserRegisterParams(
+            name: event.name,
+            email: event.email,
+            password: event.password,
+            photo: event.photo),
+      );
+      res.fold(
+        (l) => emit(AuthRegisterFailureState(l.msg)),
+        (r) => emit(
+          AuthRegisterSuccessState(r),
+        ),
+      );
+    } catch (e) {
+      emit(AuthRegisterFailureState(e.toString()));
+    }
   }
 }
