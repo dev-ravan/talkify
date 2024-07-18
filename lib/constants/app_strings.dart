@@ -18,4 +18,7 @@ class AppStrings {
   static String nameField = "Name";
   static String newPw = "Password";
   static String confirmPw = "Confirm Password";
+
+  // Home
+  static String appTitle = "Talkify";
 }

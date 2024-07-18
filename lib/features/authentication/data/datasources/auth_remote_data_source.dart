@@ -75,6 +75,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         // Map of user info with the updated image URL
         Map<String, dynamic> userInfo = {
           "id": userId,
+          "uid": credential.user!.uid,
           "name": name,
           "userName": userName,
           "email": email,
