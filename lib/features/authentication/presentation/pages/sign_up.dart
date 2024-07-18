@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:talkify/features/authentication/presentation/components/pick_user_img.dart';
-import 'package:talkify/features/home/presentation/pages/home.dart';
 import 'package:talkify/utils/exports.dart';
 import 'package:talkify/utils/toasts.dart';
 

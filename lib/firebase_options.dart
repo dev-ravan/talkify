@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '239687923563',
     projectId: 'talkify-b6070',
     storageBucket: 'talkify-b6070.appspot.com',
+    androidClientId: '239687923563-l3b8afo28ob661nl8pdgbnlbq10885hm.apps.googleusercontent.com',
+    iosClientId: '239687923563-6v5rdn6vf291cpq5crn7cth06g8pejsb.apps.googleusercontent.com',
     iosBundleId: 'com.example.talkify',
   );
 

@@ -1,3 +1,4 @@
+import 'package:talkify/features/authentication/domain/usecase/google_login.dart';
 import 'package:talkify/features/authentication/domain/usecase/user_register.dart';
 import 'package:talkify/utils/exports.dart';
 
@@ -28,8 +29,16 @@ void _initAuth() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => UserGoogleLogin(
+      serviceLocator(),
+    ),
+  );
 
   serviceLocator.registerLazySingleton(
-    () => AuthBloc(userLogin: serviceLocator(), userRegister: serviceLocator()),
+    () => AuthBloc(
+        userLogin: serviceLocator(),
+        userRegister: serviceLocator(),
+        userGoogleLogin: serviceLocator()),
   );
 }

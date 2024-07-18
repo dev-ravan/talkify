@@ -10,6 +10,7 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+  Future<String> loginWithGoogle();
   Future<String> registerUser({
     required String name,
     required String email,
@@ -22,6 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+
   @override
   Future<String> loginWithEmailPassword(
       {required String email, required String password}) async {
@@ -29,10 +31,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final credential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      if (credential.user == null) {
+      if (credential.user != null) {
+        return credential.user!.uid;
+      } else {
         throw ServerException("User is null!");
       }
-      return credential.user!.uid;
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -87,6 +90,25 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException("User is null..!");
       }
     } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> loginWithGoogle() async {
+    try {
+      // Add google provider
+      final GoogleAuthProvider googleAuth = GoogleAuthProvider();
+
+      // Get credential using google auth
+      final credential = await _firebaseAuth.signInWithProvider(googleAuth);
+      if (credential.user != null) {
+        return credential.user!.uid;
+      } else {
+        throw ServerException("Un authorised user");
+      }
+    } catch (e) {
+      print(e.toString());
       throw ServerException(e.toString());
     }
   }

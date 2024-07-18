@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:talkify/features/authentication/domain/usecase/google_login.dart';
 import 'package:talkify/features/authentication/domain/usecase/user_register.dart';
 import 'package:talkify/utils/exports.dart';
 part 'auth_event.dart';
@@ -9,13 +10,19 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserLogin _userLogin;
   final UserRegister _userRegister;
+  final UserGoogleLogin _userGoogleLogin;
   final ImagePicker _picker = ImagePicker();
 
-  AuthBloc({required UserLogin userLogin, required UserRegister userRegister})
+  AuthBloc(
+      {required UserLogin userLogin,
+      required UserRegister userRegister,
+      required UserGoogleLogin userGoogleLogin})
       : _userLogin = userLogin,
         _userRegister = userRegister,
+        _userGoogleLogin = userGoogleLogin,
         super(AuthInitial()) {
     on<LoginLetsGoButtonClickEvent>(_loginLetsGoButtonClickEvent);
+    on<LoginGoogleClickEvent>(_loginGoogleClickEvent);
     on<LoginCreateItClickEvent>(_loginCreateItClickEvent);
     on<RegisterPickImgEvent>(_registerPickImgEvent);
     on<RegisterToLoginClickEvent>(_registerToLoginClickEvent);
@@ -81,6 +88,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } catch (e) {
       emit(AuthRegisterFailureState(e.toString()));
+    }
+  }
+
+  FutureOr<void> _loginGoogleClickEvent(
+      LoginGoogleClickEvent event, Emitter<AuthState> emit) async {
+    emit(LoginGoogleLoadingState());
+    try {
+      final res = await _userGoogleLogin.userGoogleLogin();
+      res.fold(
+        (l) => emit(LoginGoogleFailureState(l.msg)),
+        (r) => emit(LoginGoogleSuccessState(r)),
+      );
+    } catch (e) {
+      emit(LoginGoogleFailureState(e.toString()));
     }
   }
 }

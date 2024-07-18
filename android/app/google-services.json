@@ -12,7 +12,20 @@
           "package_name": "com.example.talkify"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "239687923563-pdro66sr3ido3viubb3r0d0puak5j6jt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.talkify",
+            "certificate_hash": "ee9aaa7ac70c3e86d5d06394cf7218bababd71c3"
+          }
+        },
+        {
+          "client_id": "239687923563-a5in3ivnljv3o7vug8t7v7emdkkr1o7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD5jEWfWGhd4KUQMNlGCiwvtAVVXsqQY0A"
@@ -20,26 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:239687923563:android:e28fe03c6ea5af2c5bbe2e",
-        "android_client_info": {
-          "package_name": "com.talkify.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD5jEWfWGhd4KUQMNlGCiwvtAVVXsqQY0A"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239687923563-a5in3ivnljv3o7vug8t7v7emdkkr1o7n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "239687923563-6v5rdn6vf291cpq5crn7cth06g8pejsb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.talkify"
+              }
+            }
+          ]
         }
       }
     }

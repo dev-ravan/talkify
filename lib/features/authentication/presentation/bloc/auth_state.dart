@@ -19,6 +19,18 @@ final class LoginLetsGoFailureState extends AuthActionState {
 
 final class LoginLetsGoLoadingState extends AuthState {}
 
+final class LoginGoogleSuccessState extends AuthActionState {
+  final String msg;
+  LoginGoogleSuccessState(this.msg);
+}
+
+final class LoginGoogleFailureState extends AuthActionState {
+  final String error;
+  LoginGoogleFailureState(this.error);
+}
+
+final class LoginGoogleLoadingState extends AuthState {}
+
 final class LoginToRegisterState extends AuthActionState {}
 
 final class RegisterPickImgSuccessState extends AuthState {

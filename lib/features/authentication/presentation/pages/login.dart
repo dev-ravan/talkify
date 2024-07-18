@@ -44,10 +44,22 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is LoginToRegisterState) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const SignUpPage()));
+          } else if (state is LoginGoogleFailureState) {
+            warningToastMsg(msg: state.error, context: context);
           }
         },
         builder: (context, state) {
           final isLoading = state is LoginLetsGoLoadingState;
+          // if (state is LoginGoogleLoadingState) {
+          //   showDialog(
+          //     context: context,
+          //     builder: (context) => const AlertDialog(
+          //       content: Center(
+          //         child: CircularProgressIndicator.adaptive(),
+          //       ),
+          //     ),
+          //   );
+          // }
           return SafeArea(
               child: Padding(
             padding: p16,
@@ -116,7 +128,9 @@ class _LoginPageState extends State<LoginPage> {
                     color: Palettes.redColor,
                     title: AppStrings.google,
                     icon: AppIcons.google,
-                    onTap: () {},
+                    onTap: () {
+                      context.read<AuthBloc>().add(LoginGoogleClickEvent());
+                    },
                   ),
                   gap12,
 
