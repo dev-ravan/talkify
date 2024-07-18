@@ -50,16 +50,6 @@ class _LoginPageState extends State<LoginPage> {
         },
         builder: (context, state) {
           final isLoading = state is LoginLetsGoLoadingState;
-          // if (state is LoginGoogleLoadingState) {
-          //   showDialog(
-          //     context: context,
-          //     builder: (context) => const AlertDialog(
-          //       content: Center(
-          //         child: CircularProgressIndicator.adaptive(),
-          //       ),
-          //     ),
-          //   );
-          // }
           return SafeArea(
               child: Padding(
             padding: p16,
