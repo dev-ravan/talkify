@@ -1,10 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:talkify/features/home/data/model/user_model.dart';
 import 'package:talkify/utils/exports.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  final UserModel user;
+  const HomeHeader({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +57,27 @@ class HomeHeader extends StatelessWidget {
           // Profile image
           Expanded(
             child: Container(
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 border: Border.all(color: colorTheme.outline),
                 color: colorTheme.secondary,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Center(
-                child: Icon(
-                  Icons.person,
-                  size: 40,
-                  color: colorTheme.outline,
-                ),
-              ),
+              child: user.photo != ""
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: Image.network(
+                        user.photo,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Center(
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                        color: colorTheme.outline,
+                      ),
+                    ),
             ),
           ),
         ],

@@ -1,8 +1,10 @@
 import 'package:talkify/constants/app_images.dart';
+import 'package:talkify/features/home/data/model/user_model.dart';
 import 'package:talkify/utils/exports.dart';
 
 class UserTile extends StatelessWidget {
-  const UserTile({super.key});
+  final UserModel user;
+  const UserTile({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,7 @@ class UserTile extends StatelessWidget {
     return Container(
         height: 80,
         padding: p8,
+        margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           border: Border.all(color: colorTheme.outline),
           color: colorTheme.secondary,
@@ -24,10 +27,15 @@ class UserTile extends StatelessWidget {
               child: SizedBox(
                 width: 70,
                 height: double.maxFinite,
-                child: Image.asset(
-                  AppImages.person,
-                  fit: BoxFit.cover,
-                ),
+                child: user.photo != ""
+                    ? Image.network(
+                        user.photo,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        AppImages.person,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             gap12,
@@ -37,13 +45,13 @@ class UserTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Velmurugan",
+                    user.name,
                     style: textTheme.bodyLarge!
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                   gap4,
                   Text(
-                    "velmurugan@gmail.com",
+                    user.email,
                     style: textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.w500,
                         color: colorTheme.primaryContainer),

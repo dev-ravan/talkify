@@ -9,6 +9,13 @@ final class HomeInitial extends HomeState {}
 
 final class HomeLoadingStete extends HomeState {}
 
-final class HomeSuccessState extends HomeState {}
+final class HomeSuccessState extends HomeState {
+  final List<UserModel> usersList;
+  final UserModel user;
+  HomeSuccessState(this.usersList, this.user);
+}
 
-final class HomeFailureStete extends HomeActionState {}
+final class HomeFailureStete extends HomeState {
+  final String error;
+  HomeFailureStete(this.error);
+}

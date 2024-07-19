@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:talkify/core/error/exception.dart';
 import 'package:talkify/core/error/failure.dart';
@@ -10,11 +9,20 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource homeRemoteDataSource;
   HomeRepositoryImpl(this.homeRemoteDataSource);
   @override
-  Future<Either<Failure, Stream<QuerySnapshot<UserModel>>>>
-      getUserList() async {
+  Future<Either<Failure, List<UserModel>>> getUserList() async {
     try {
-      final userList = homeRemoteDataSource.getUserList();
+      final userList = await homeRemoteDataSource.getUserList();
       return right(userList);
+    } on ServerException catch (e) {
+      return left(Failure(e.msg));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> getCurrentUser() async {
+    try {
+      final user = await homeRemoteDataSource.getCurrentUser();
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.msg));
     }
