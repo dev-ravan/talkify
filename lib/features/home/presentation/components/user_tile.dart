@@ -13,7 +13,7 @@ class UserTile extends StatelessWidget {
 
     return Container(
         height: 80,
-        padding: p8,
+        padding: p4,
         margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           border: Border.all(color: colorTheme.outline),
