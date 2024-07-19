@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:random_string/random_string.dart';
 import 'package:talkify/core/error/exception.dart';
+import "package:path/path.dart" as p;
 
 abstract interface class AuthRemoteDataSource {
   Future<String> loginWithEmailPassword({
@@ -33,9 +33,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       if (credential.user != null) {
         return credential.user!.uid;
-      } else {
-        throw ServerException("User is null!");
       }
+      throw ServerException("User is null!");
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -48,8 +47,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
     required File photo,
   }) async {
-    // Generate a random id
-    final userId = randomAlphaNumeric(7);
+    print(photo);
 
     // Create a user name using available mail id
     final userName = email.replaceAll("@gmail.com", "");
@@ -64,9 +62,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // If user added
       if (credential.user != null) {
         // Add image to storage
-        Reference reference = _storage
-            .ref()
-            .child("images/${DateTime.now().microsecondsSinceEpoch}.png");
+        Reference reference = _storage.ref().child(
+            "images/${DateTime.now().microsecondsSinceEpoch}${p.extension(photo.path)}");
         await reference.putFile(photo);
 
         // Get download url
@@ -74,7 +71,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
         // Map of user info with the updated image URL
         Map<String, dynamic> userInfo = {
-          "id": userId,
           "uid": credential.user!.uid,
           "name": name,
           "userName": userName,
@@ -84,12 +80,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         };
 
         // Add the user info to Firestore
-        await _firestore.collection("users").doc(userId).set(userInfo);
+        await _firestore
+            .collection("users")
+            .doc(credential.user!.uid)
+            .set(userInfo);
 
         return credential.user!.uid;
-      } else {
-        throw ServerException("User is null..!");
       }
+      throw ServerException("User is null..!");
     } catch (e) {
       throw ServerException(e.toString());
     }
