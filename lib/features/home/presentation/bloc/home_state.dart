@@ -19,3 +19,15 @@ final class HomeFailureStete extends HomeState {
   final String error;
   HomeFailureStete(this.error);
 }
+
+final class LogoutLoadingStete extends HomeState {}
+
+final class LogoutSuccessState extends HomeActionState {
+  final bool isLogout;
+  LogoutSuccessState(this.isLogout);
+}
+
+final class LogoutFailureStete extends HomeActionState {
+  final String error;
+  LogoutFailureStete(this.error);
+}

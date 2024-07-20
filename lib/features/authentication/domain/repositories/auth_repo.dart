@@ -14,4 +14,5 @@ abstract interface class AuthRepository {
     required String password,
     required File photo,
   });
+  Future<Either<Failure, bool>> logout();
 }

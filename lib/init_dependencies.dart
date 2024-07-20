@@ -1,4 +1,5 @@
 import 'package:talkify/features/authentication/domain/usecase/google_login.dart';
+import 'package:talkify/features/authentication/domain/usecase/user_logout.dart';
 import 'package:talkify/features/authentication/domain/usecase/user_register.dart';
 import 'package:talkify/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:talkify/features/home/data/repositories/home_repo_impl.dart';
@@ -42,6 +43,11 @@ void _initAuth() {
       serviceLocator(),
     ),
   );
+  serviceLocator.registerFactory(
+    () => UserLogout(
+      serviceLocator(),
+    ),
+  );
 
   serviceLocator.registerLazySingleton(
     () => AuthBloc(
@@ -66,6 +72,8 @@ void _homeInit() {
 
   serviceLocator.registerLazySingleton(
     () => HomeBloc(
-        getUserList: serviceLocator(), GetCurrentUser: serviceLocator()),
+        getUserList: serviceLocator(),
+        getCurrentUser: serviceLocator(),
+        userLogout: serviceLocator()),
   );
 }

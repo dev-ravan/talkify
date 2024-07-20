@@ -2,6 +2,7 @@
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:talkify/features/home/data/model/user_model.dart';
+import 'package:talkify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:talkify/utils/exports.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -15,20 +16,25 @@ class HomeHeader extends StatelessWidget {
       height: 60,
       child: Row(
         children: [
-          // Settings
+          // Logout
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: colorTheme.outline),
-                color: colorTheme.secondary,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  height: 24,
-                  width: 24,
-                  AppIcons.settings,
-                  color: colorTheme.primaryContainer,
+            child: InkWell(
+              onTap: () {
+                context.read<HomeBloc>().add(HomeLogoutClickEvent());
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: colorTheme.outline),
+                  color: colorTheme.secondary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    height: 24,
+                    width: 24,
+                    AppIcons.logout,
+                    color: colorTheme.primaryContainer,
+                  ),
                 ),
               ),
             ),
@@ -57,7 +63,7 @@ class HomeHeader extends StatelessWidget {
           // Profile image
           Expanded(
             child: Container(
-              padding: const EdgeInsets.all(2),
+              height: double.maxFinite,
               decoration: BoxDecoration(
                 border: Border.all(color: colorTheme.outline),
                 color: colorTheme.secondary,

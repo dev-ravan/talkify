@@ -17,6 +17,7 @@ abstract interface class AuthRemoteDataSource {
     required String password,
     required File photo,
   });
+  Future<bool> logout();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -107,7 +108,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException("Un authorised user");
       }
     } catch (e) {
-      print(e.toString());
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<bool> logout() async {
+    try {
+      await _firebaseAuth.signOut();
+      return true;
+    } catch (e) {
       throw ServerException(e.toString());
     }
   }

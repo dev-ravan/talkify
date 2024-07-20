@@ -9,4 +9,5 @@ class AppIcons {
   static String arrowRight = "assets/icons/arrow-right.svg";
   static String user = "assets/icons/user.svg";
   static String camera = "assets/icons/camera.svg";
+  static String logout = "assets/icons/logout.svg";
 }
