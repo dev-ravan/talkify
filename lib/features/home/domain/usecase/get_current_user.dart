@@ -7,6 +7,6 @@ class GetCurrentUser {
   final HomeRepository homeRepository;
   GetCurrentUser(this.homeRepository);
   Future<Either<Failure, UserModel>> getCurrentUser() async {
-    return homeRepository.getCurrentUser();
+    return await homeRepository.getCurrentUser();
   }
 }

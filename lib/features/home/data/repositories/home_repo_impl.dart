@@ -27,4 +27,14 @@ class HomeRepositoryImpl implements HomeRepository {
       return left(Failure(e.msg));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> createChatRoom({required String uid}) async {
+    try {
+      final result = await homeRemoteDataSource.createChatRoom(uid: uid);
+      return right(result);
+    } on ServerException catch (e) {
+      return left(Failure(e.msg));
+    }
+  }
 }

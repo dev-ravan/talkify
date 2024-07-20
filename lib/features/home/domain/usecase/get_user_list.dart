@@ -7,6 +7,6 @@ class GetUserList {
   final HomeRepository homeRepository;
   GetUserList(this.homeRepository);
   Future<Either<Failure, List<UserModel>>> getUserList() async {
-    return homeRepository.getUserList();
+    return await homeRepository.getUserList();
   }
 }

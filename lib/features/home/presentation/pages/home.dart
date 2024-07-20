@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
               .push(MaterialPageRoute(builder: (context) => const LoginPage()));
         } else if (state is LogoutFailureStete) {
           warningToastMsg(msg: "Logged out failed :(", context: context);
-        } else if (state is ChatRoomNavigateStete) {
+        } else if (state is ChatRoomNavigateSuccessState) {
           Navigator.push(
               context,
               MaterialPageRoute(

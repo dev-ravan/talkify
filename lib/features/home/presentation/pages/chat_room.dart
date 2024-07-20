@@ -21,7 +21,7 @@ class _ChatRoomState extends State<ChatRoom> {
         listenWhen: (previous, current) => current is HomeActionState,
         buildWhen: (previous, current) => current is! HomeActionState,
         listener: (context, state) {
-          if (state is ChatRoomToHomeNavigateStete) {
+          if (state is ChatRoomToHomeNavigateState) {
             Navigator.pop(context);
           }
         },

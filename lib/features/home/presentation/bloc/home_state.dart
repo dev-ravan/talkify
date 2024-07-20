@@ -32,9 +32,14 @@ final class LogoutFailureStete extends HomeActionState {
   LogoutFailureStete(this.error);
 }
 
-final class ChatRoomNavigateStete extends HomeActionState {
+final class ChatRoomNavigateSuccessState extends HomeActionState {
   final UserModel user;
-  ChatRoomNavigateStete(this.user);
+  ChatRoomNavigateSuccessState(this.user);
 }
 
-final class ChatRoomToHomeNavigateStete extends HomeActionState {}
+final class ChatRoomToHomeNavigateState extends HomeActionState {}
+
+final class ChatRoomNavigateFailureState extends HomeActionState {
+  final String error;
+  ChatRoomNavigateFailureState(this.error);
+}

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:talkify/features/authentication/domain/usecase/user_logout.dart';
 import 'package:talkify/features/home/data/model/user_model.dart';
+import 'package:talkify/features/home/domain/usecase/create_chat_room.dart';
 import 'package:talkify/features/home/domain/usecase/get_current_user.dart';
 import 'package:talkify/features/home/domain/usecase/get_user_list.dart';
 import 'package:talkify/utils/exports.dart';
@@ -12,13 +13,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final UserLogout _userLogout;
   final GetUserList _getUserList;
   final GetCurrentUser _getCurrentUser;
-  HomeBloc({
-    required GetUserList getUserList,
-    required GetCurrentUser getCurrentUser,
-    required UserLogout userLogout,
-  })  : _getUserList = getUserList,
+  final CreateChatRoom _createChatRoom;
+  HomeBloc(
+      {required GetUserList getUserList,
+      required GetCurrentUser getCurrentUser,
+      required UserLogout userLogout,
+      required CreateChatRoom createChatRoom})
+      : _getUserList = getUserList,
         _getCurrentUser = getCurrentUser,
         _userLogout = userLogout,
+        _createChatRoom = createChatRoom,
         super(HomeInitial()) {
     on<HomeInitialEvent>(_homeInitialEvent);
     on<HomeLogoutClickEvent>(_homeLogoutClickEvent);
@@ -61,12 +65,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _homeChatUserClickEvent(
-      HomeChatUserClickEvent event, Emitter<HomeState> emit) {
-    emit(ChatRoomNavigateStete(event.user));
+      HomeChatUserClickEvent event, Emitter<HomeState> emit) async {
+    try {
+      final res = await _createChatRoom.call(ChatRoomParams(event.user.uid));
+      res.fold(
+        (l) => emit(ChatRoomNavigateFailureState(l.msg)),
+        (r) => emit(ChatRoomNavigateSuccessState(event.user)),
+      );
+    } catch (e) {
+      emit(ChatRoomNavigateFailureState(e.toString()));
+    }
   }
 
   FutureOr<void> _chatBackClickEvent(
       ChatBackClickEvent event, Emitter<HomeState> emit) {
-    emit(ChatRoomToHomeNavigateStete());
+    emit(ChatRoomToHomeNavigateState());
   }
 }
