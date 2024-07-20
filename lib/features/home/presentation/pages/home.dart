@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:talkify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:talkify/features/home/presentation/components/home_header.dart';
 import 'package:talkify/features/home/presentation/components/user_tile.dart';
+import 'package:talkify/features/home/presentation/pages/chat_room.dart';
 import 'package:talkify/init_dependencies.dart';
 import 'package:talkify/utils/exports.dart';
 import 'package:talkify/utils/toasts.dart';
@@ -29,20 +28,18 @@ class _HomeState extends State<Home> {
       buildWhen: (previous, current) => current is! HomeActionState,
       listener: (context, state) {
         if (state is LogoutSuccessState) {
-          log("First");
-          if (state.isLogout) {
-            log("2");
-            successToastMsg(
-                msg: "Logged out successfully..!", context: context);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const LoginPage()));
-          } else {
-            log("3");
-            warningToastMsg(msg: "Logged out failed :(", context: context);
-          }
+          successToastMsg(msg: "Logged out successfully..!", context: context);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => const LoginPage()));
         } else if (state is LogoutFailureStete) {
-          log("4");
           warningToastMsg(msg: "Logged out failed :(", context: context);
+        } else if (state is ChatRoomNavigateStete) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatRoom(
+                        chatUser: state.user,
+                      )));
         }
       },
       builder: (context, state) {
@@ -57,14 +54,16 @@ class _HomeState extends State<Home> {
                 HomeHeader(user: state.user),
                 gap32,
                 // List of users
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.usersList.length,
-                  itemBuilder: (context, index) {
-                    return UserTile(
-                      user: state.usersList[index],
-                    );
-                  },
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.usersList.length,
+                    itemBuilder: (context, index) {
+                      return UserTile(
+                        user: state.usersList[index],
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

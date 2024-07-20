@@ -22,6 +22,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         super(HomeInitial()) {
     on<HomeInitialEvent>(_homeInitialEvent);
     on<HomeLogoutClickEvent>(_homeLogoutClickEvent);
+    on<HomeChatUserClickEvent>(_homeChatUserClickEvent);
+    on<ChatBackClickEvent>(_chatBackClickEvent);
   }
 
   FutureOr<void> _homeInitialEvent(
@@ -56,5 +58,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       emit(LogoutFailureStete(e.toString()));
     }
+  }
+
+  FutureOr<void> _homeChatUserClickEvent(
+      HomeChatUserClickEvent event, Emitter<HomeState> emit) {
+    emit(ChatRoomNavigateStete(event.user));
+  }
+
+  FutureOr<void> _chatBackClickEvent(
+      ChatBackClickEvent event, Emitter<HomeState> emit) {
+    emit(ChatRoomToHomeNavigateStete());
   }
 }
