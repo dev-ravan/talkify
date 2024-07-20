@@ -15,6 +15,7 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
     return Scaffold(
         body: SafeArea(
       child: BlocConsumer<HomeBloc, HomeState>(
@@ -36,7 +37,10 @@ class _ChatRoomState extends State<ChatRoom> {
                 ChatRoomHeader(user: widget.chatUser),
                 Expanded(
                   child: DashChat(
-                      currentUser: currentUser, onSend: (msg) {}, messages: []),
+                      inputOptions: chatFieldStyle(colorTheme),
+                      currentUser: currentUser,
+                      onSend: (msg) {},
+                      messages: []),
                 )
               ],
             ),
@@ -44,5 +48,48 @@ class _ChatRoomState extends State<ChatRoom> {
         },
       ),
     ));
+  }
+
+  InputOptions chatFieldStyle(ColorScheme colorTheme) {
+    return InputOptions(
+        alwaysShowSend: true,
+        autocorrect: true,
+        sendOnEnter: true,
+        sendButtonBuilder: (send) => InkWell(
+              onTap: send,
+              child: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 52,
+                  width: 52,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: colorTheme.outline),
+                    color: colorTheme.secondary,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.send,
+                    size: 24,
+                    color: colorTheme.primary,
+                  )),
+            ),
+        inputDecoration: InputDecoration(
+            hintText: "Message",
+            hintStyle: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(color: colorTheme.primaryContainer),
+            isDense: true,
+            contentPadding: const EdgeInsets.all(14),
+            fillColor: colorTheme.secondary,
+            filled: true,
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: colorTheme.primary)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: colorTheme.outline)),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: colorTheme.outline))));
   }
 }
