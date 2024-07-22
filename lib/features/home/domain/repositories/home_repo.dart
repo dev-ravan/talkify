@@ -14,7 +14,7 @@ abstract interface class HomeRepository {
     required String uid,
     required Message message,
   });
-  Future<Either<Failure, List<Chat>>> getChatMessages({
+  Future<Either<Failure, Chat>> getChatMessages({
     required String uid,
   });
 }

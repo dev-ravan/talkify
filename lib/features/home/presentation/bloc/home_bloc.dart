@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:talkify/features/authentication/domain/usecase/user_logout.dart';
+import 'package:talkify/features/home/data/model/chat_mod.dart';
 import 'package:talkify/features/home/data/model/message_mod.dart';
 import 'package:talkify/features/home/data/model/user_model.dart';
 import 'package:talkify/features/home/domain/usecase/create_chat_room.dart';
