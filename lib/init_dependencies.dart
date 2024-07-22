@@ -7,6 +7,7 @@ import 'package:talkify/features/home/domain/repositories/home_repo.dart';
 import 'package:talkify/features/home/domain/usecase/create_chat_room.dart';
 import 'package:talkify/features/home/domain/usecase/get_current_user.dart';
 import 'package:talkify/features/home/domain/usecase/get_user_list.dart';
+import 'package:talkify/features/home/domain/usecase/send_message.dart';
 import 'package:talkify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:talkify/utils/exports.dart';
 
@@ -49,12 +50,14 @@ void _homeInit() {
   serviceLocator.registerFactory(() => GetUserList(serviceLocator()));
   serviceLocator.registerFactory(() => GetCurrentUser(serviceLocator()));
   serviceLocator.registerFactory(() => CreateChatRoom(serviceLocator()));
+  serviceLocator.registerFactory(() => SendMessage(serviceLocator()));
 
   serviceLocator.registerLazySingleton(
     () => HomeBloc(
         getUserList: serviceLocator(),
         getCurrentUser: serviceLocator(),
         userLogout: serviceLocator(),
-        createChatRoom: serviceLocator()),
+        createChatRoom: serviceLocator(),
+        sendMessage: serviceLocator()),
   );
 }

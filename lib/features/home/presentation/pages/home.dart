@@ -38,7 +38,8 @@ class _HomeState extends State<Home> {
               context,
               MaterialPageRoute(
                   builder: (context) => ChatRoom(
-                        chatUser: state.user,
+                        currentUser: state.currentUser,
+                        otherUser: state.otherUser,
                       )));
         }
       },
@@ -61,6 +62,7 @@ class _HomeState extends State<Home> {
                     itemBuilder: (context, index) {
                       return UserTile(
                         user: state.usersList[index],
+                        currentUser: state.user,
                       );
                     },
                   ),

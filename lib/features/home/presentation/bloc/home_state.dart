@@ -33,8 +33,9 @@ final class LogoutFailureStete extends HomeActionState {
 }
 
 final class ChatRoomNavigateSuccessState extends HomeActionState {
-  final UserModel user;
-  ChatRoomNavigateSuccessState(this.user);
+  final UserModel currentUser;
+  final UserModel otherUser;
+  ChatRoomNavigateSuccessState(this.currentUser, this.otherUser);
 }
 
 final class ChatRoomToHomeNavigateState extends HomeActionState {}
@@ -42,4 +43,13 @@ final class ChatRoomToHomeNavigateState extends HomeActionState {}
 final class ChatRoomNavigateFailureState extends HomeActionState {
   final String error;
   ChatRoomNavigateFailureState(this.error);
+}
+
+final class SendMessageSuccessState extends HomeState {}
+
+final class SendMessageLoadingState extends HomeState {}
+
+final class SendMessageFailureState extends HomeState {
+  final String error;
+  SendMessageFailureState(this.error);
 }

@@ -1,12 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:talkify/features/home/data/model/message_mod.dart';
 import 'package:talkify/features/home/data/model/user_model.dart';
 import 'package:talkify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:talkify/features/home/presentation/components/chat_room_header.dart';
 import 'package:talkify/utils/exports.dart';
 
 class ChatRoom extends StatefulWidget {
-  final UserModel chatUser;
-  const ChatRoom({super.key, required this.chatUser});
+  final UserModel currentUser;
+  final UserModel otherUser;
+  const ChatRoom({
+    super.key,
+    required this.currentUser,
+    required this.otherUser,
+  });
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -27,19 +34,33 @@ class _ChatRoomState extends State<ChatRoom> {
           }
         },
         builder: (context, state) {
-          final user = widget.chatUser;
+          final receiveUser = ChatUser(
+              id: widget.otherUser.uid,
+              firstName: widget.otherUser.name,
+              profileImage: widget.otherUser.photo);
           final currentUser = ChatUser(
-              id: user.uid, firstName: user.name, profileImage: user.photo);
+              id: widget.currentUser.uid,
+              firstName: widget.currentUser.name,
+              profileImage: widget.currentUser.photo);
+
           return Padding(
             padding: p16,
             child: Column(
               children: [
-                ChatRoomHeader(user: widget.chatUser),
+                ChatRoomHeader(user: widget.otherUser),
                 Expanded(
                   child: DashChat(
                       inputOptions: chatFieldStyle(colorTheme),
                       currentUser: currentUser,
-                      onSend: (msg) {},
+                      onSend: (msg) {
+                        final Message message = Message(
+                            senderID: currentUser.id,
+                            content: msg.text,
+                            messageType: MessageType.Text,
+                            sentAt: Timestamp.fromDate(msg.createdAt));
+                        context.read<HomeBloc>().add(
+                            SendMessageEvent(receiveUser.id, message: message));
+                      },
                       messages: []),
                 )
               ],

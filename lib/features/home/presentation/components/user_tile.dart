@@ -5,7 +5,8 @@ import 'package:talkify/utils/exports.dart';
 
 class UserTile extends StatelessWidget {
   final UserModel user;
-  const UserTile({super.key, required this.user});
+  final UserModel currentUser;
+  const UserTile({super.key, required this.user, required this.currentUser});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,9 @@ class UserTile extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return InkWell(
-      onTap: () => context.read<HomeBloc>().add(HomeChatUserClickEvent(user)),
+      onTap: () => context
+          .read<HomeBloc>()
+          .add(HomeChatUserClickEvent(user, currentUser)),
       child: Container(
           height: 80,
           padding: p4,

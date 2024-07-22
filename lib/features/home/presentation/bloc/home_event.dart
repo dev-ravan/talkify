@@ -8,9 +8,16 @@ final class HomeInitialEvent extends HomeEvent {}
 final class HomeLogoutClickEvent extends HomeEvent {}
 
 final class HomeChatUserClickEvent extends HomeEvent {
-  final UserModel user;
+  final UserModel otherUser;
+  final UserModel currentUser;
 
-  HomeChatUserClickEvent(this.user);
+  HomeChatUserClickEvent(this.otherUser, this.currentUser);
 }
 
 final class ChatBackClickEvent extends HomeEvent {}
+
+final class SendMessageEvent extends HomeEvent {
+  final String uid;
+  final Message message;
+  SendMessageEvent(this.uid, {required this.message});
+}
