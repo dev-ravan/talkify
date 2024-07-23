@@ -60,6 +60,7 @@ void _homeInit() {
         getCurrentUser: serviceLocator(),
         userLogout: serviceLocator(),
         createChatRoom: serviceLocator(),
-        sendMessage: serviceLocator()),
+        sendMessage: serviceLocator(),
+        getChatMessages: serviceLocator()),
   );
 }

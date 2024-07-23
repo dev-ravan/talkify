@@ -4,6 +4,7 @@ import 'package:talkify/features/home/data/model/message_mod.dart';
 import 'package:talkify/features/home/data/model/user_model.dart';
 import 'package:talkify/features/home/presentation/bloc/home_bloc.dart';
 import 'package:talkify/features/home/presentation/components/chat_room_header.dart';
+import 'package:talkify/init_dependencies.dart';
 import 'package:talkify/utils/exports.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -20,6 +21,22 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  ChatUser? currentUser, receiveUser;
+  @override
+  void initState() {
+    super.initState();
+    receiveUser = ChatUser(
+        id: widget.otherUser.uid,
+        firstName: widget.otherUser.name,
+        profileImage: widget.otherUser.photo);
+    currentUser = ChatUser(
+        id: widget.currentUser.uid,
+        firstName: widget.currentUser.name,
+        profileImage: widget.currentUser.photo);
+    serviceLocator.get<HomeBloc>().add(GetChatMessagesEvent(
+        currentUser: currentUser!, otherUser: receiveUser!));
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorTheme = Theme.of(context).colorScheme;
@@ -34,38 +51,47 @@ class _ChatRoomState extends State<ChatRoom> {
           }
         },
         builder: (context, state) {
-          final receiveUser = ChatUser(
-              id: widget.otherUser.uid,
-              firstName: widget.otherUser.name,
-              profileImage: widget.otherUser.photo);
-          final currentUser = ChatUser(
-              id: widget.currentUser.uid,
-              firstName: widget.currentUser.name,
-              profileImage: widget.currentUser.photo);
+          if (state is ChatMessagesListSuccessState) {
+            return Padding(
+              padding: p16,
+              child: Column(
+                children: [
+                  ChatRoomHeader(user: widget.otherUser),
+                  Expanded(
+                    child: DashChat(
+                        inputOptions: chatFieldStyle(colorTheme),
+                        currentUser: currentUser!,
+                        onSend: (msg) {
+                          final Message message = Message(
+                              senderID: currentUser!.id,
+                              content: msg.text,
+                              messageType: MessageType.Text,
+                              sentAt: Timestamp.fromDate(msg.createdAt));
+                          context.read<HomeBloc>().add(SendMessageEvent(
+                              receiveUser!.id,
+                              message: message));
+                          context.read<HomeBloc>().add(GetChatMessagesEvent(
+                              currentUser: currentUser!,
+                              otherUser: receiveUser!));
+                        },
+                        messages: state.messages),
+                  )
+                ],
+              ),
+            );
+          }
+          // Error
+          else if (state is ChatMessagesListFailureState) {
+            return Center(
+              child: Text(
+                state.error,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            );
+          }
 
-          return Padding(
-            padding: p16,
-            child: Column(
-              children: [
-                ChatRoomHeader(user: widget.otherUser),
-                Expanded(
-                  child: DashChat(
-                      inputOptions: chatFieldStyle(colorTheme),
-                      currentUser: currentUser,
-                      onSend: (msg) {
-                        final Message message = Message(
-                            senderID: currentUser.id,
-                            content: msg.text,
-                            messageType: MessageType.Text,
-                            sentAt: Timestamp.fromDate(msg.createdAt));
-                        context.read<HomeBloc>().add(
-                            SendMessageEvent(receiveUser.id, message: message));
-                      },
-                      messages: []),
-                )
-              ],
-            ),
-          );
+          // Loading
+          return const Center(child: CircularProgressIndicator.adaptive());
         },
       ),
     ));

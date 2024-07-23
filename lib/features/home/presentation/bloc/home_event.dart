@@ -21,3 +21,12 @@ final class SendMessageEvent extends HomeEvent {
   final Message message;
   SendMessageEvent(this.uid, {required this.message});
 }
+
+final class GetChatMessagesEvent extends HomeEvent {
+  final ChatUser currentUser;
+  final ChatUser otherUser;
+  GetChatMessagesEvent({
+    required this.currentUser,
+    required this.otherUser,
+  });
+}

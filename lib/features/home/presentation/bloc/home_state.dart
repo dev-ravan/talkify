@@ -53,3 +53,15 @@ final class SendMessageFailureState extends HomeState {
   final String error;
   SendMessageFailureState(this.error);
 }
+
+final class ChatMessagesListSuccessState extends HomeState {
+  final List<ChatMessage> messages;
+  ChatMessagesListSuccessState(this.messages);
+}
+
+final class ChatMessagesListLoadingState extends HomeState {}
+
+final class ChatMessagesListFailureState extends HomeState {
+  final String error;
+  ChatMessagesListFailureState(this.error);
+}

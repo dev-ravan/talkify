@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:talkify/features/authentication/domain/usecase/user_logout.dart';
-import 'package:talkify/features/home/data/model/chat_mod.dart';
 import 'package:talkify/features/home/data/model/message_mod.dart';
 import 'package:talkify/features/home/data/model/user_model.dart';
 import 'package:talkify/features/home/domain/usecase/create_chat_room.dart';
+import 'package:talkify/features/home/domain/usecase/get_chat_messages.dart';
 import 'package:talkify/features/home/domain/usecase/get_current_user.dart';
 import 'package:talkify/features/home/domain/usecase/get_user_list.dart';
 import 'package:talkify/features/home/domain/usecase/send_message.dart';
@@ -18,23 +19,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetCurrentUser _getCurrentUser;
   final CreateChatRoom _createChatRoom;
   final SendMessage _sendMessage;
+  final GetChatMessages _getChatMessages;
   HomeBloc(
       {required GetUserList getUserList,
       required GetCurrentUser getCurrentUser,
       required UserLogout userLogout,
       required CreateChatRoom createChatRoom,
-      required SendMessage sendMessage})
+      required SendMessage sendMessage,
+      required GetChatMessages getChatMessages})
       : _getUserList = getUserList,
         _getCurrentUser = getCurrentUser,
         _userLogout = userLogout,
         _createChatRoom = createChatRoom,
         _sendMessage = sendMessage,
+        _getChatMessages = getChatMessages,
         super(HomeInitial()) {
     on<HomeInitialEvent>(_homeInitialEvent);
     on<HomeLogoutClickEvent>(_homeLogoutClickEvent);
     on<HomeChatUserClickEvent>(_homeChatUserClickEvent);
     on<ChatBackClickEvent>(_chatBackClickEvent);
     on<SendMessageEvent>(_sendMessageEvent);
+    on<GetChatMessagesEvent>(_getChatMessagesEvent);
   }
 
   FutureOr<void> _homeInitialEvent(
@@ -104,6 +109,36 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       );
     } catch (e) {
       emit(SendMessageFailureState(e.toString()));
+    }
+  }
+
+  FutureOr<void> _getChatMessagesEvent(
+      GetChatMessagesEvent event, Emitter<HomeState> emit) async {
+    emit(ChatMessagesListLoadingState());
+    try {
+      final res =
+          await _getChatMessages.call(GetMessageParams(event.otherUser.id));
+      res.fold(
+        (l) => emit(ChatMessagesListFailureState(l.msg)),
+        (r) {
+          final List<ChatMessage> result = r.messages!.map(
+            (m) {
+              return ChatMessage(
+                  user: event.currentUser.id == m.senderID
+                      ? event.currentUser
+                      : event.otherUser,
+                  text: m.content!,
+                  createdAt: m.sentAt!.toDate());
+            },
+          ).toList();
+          result.sort(
+            (a, b) => b.createdAt.compareTo(a.createdAt),
+          );
+          emit(ChatMessagesListSuccessState(result));
+        },
+      );
+    } catch (e) {
+      emit(ChatMessagesListFailureState(e.toString()));
     }
   }
 }
