@@ -88,10 +88,11 @@ class _ChatRoomState extends State<ChatRoom> {
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             );
+          } else if (state is ChatMessagesListLoadingState) {
+            // Loading
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
-
-          // Loading
-          return const Center(child: CircularProgressIndicator.adaptive());
+          return Container();
         },
       ),
     ));
